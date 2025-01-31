@@ -1,0 +1,53 @@
+In one of my previous articles, we saw an overview of a simple Retrieval Augmented Generation(RAG) pipeline. We also saw about Chunking which is part of the data ingestion step. Data ingestion is not complete without chunking, embedding and storing in a Vector DB.
+
+Though data input to a RAG pipeline can be of several types, the most common input turns out to be PDF. Unlike HTML, JSON, or Markdown which are structured, PDFs are unstructured documents. So, even before we chunk the data from PDF documents, we need to parse them as shown in the figure above.
+
+What is PDF parsing?
+PDF parsing is extracting and interpreting information from PDF (Portable Document Format) files. It involves analyzing the structure and content of a PDF file to extract meaningful information, such as text, images, tables, and metadata.
+
+The purpose of PDF parsing can be severalfold such as searching for text and converting the PDF to a structured document such as HTML, Markdown, etc. However, our intent here is mainly to extract valuable information for training LLMs or for RAG. So, we will extract text, tables, images, graphics, and metadata.
+
+Challenges with PDF parsing
+While HTML documents are hierarchical representations with well-defined tags like <img> or <title>, the internal structure of PDF documents is optimized for preserving visual consistency. In other words, PDF consists of a series of instructions to display symbols. This gives birth the a whole new level of challenge when dealing with PDF documents.
+
+The first challenge is in identifying the layout of the page. The second challenge lies in extracting varied data types like tables, images, or text from the pdf.
+
+PDFs vs HTML format
+Given the challenge of dealing with PDF documents compared to structured docs like JSON or HTML, a natural question could arise as to why we need PDFs. Some of the pros are highlighted in the below table and explained further down:
+
+
+A simple comparison of HTML vs PDF
+To keep it short, PDFs are secure and readily accessible with any device and operating system. They are easily compressible to convenient sizes. They’re easy to scan, and so, ideal for printing. Unlike HTML which loses its format across browsers or operating systems, PDFs preserve their format.
+
+PDFs are used to preserve the format and so are used when rigid layouts (think forms) need to be followed. They are mostly used when the content should be consumed rather than edited. Examples include course reading materials, company reports, etc which can be readily printed and distributed.
+
+PDF for LLMs and RAG
+The above advantages can quickly turn into challenges when it comes to LLMs and RAG! 😄
+
+Yes, needless to mention, organizations have historically stored their in-house data in PDF format. So, parsing PDFs becomes an inevitable step to prepare the data to feed the LLMs and RAG pipelines.
+
+PDF Parsing Methods
+There are three broad types of PDF parsing methods based on our approach to how we handle PDFs. They are,
+
+Rule-based Methods
+Rule-based parsing is also referred to as template-based. It follows predefined rules to extract information based on patterns or positions.
+
+A good example where rule-based parsing works is parsing forms. For example, an organization can use a standard template to enroll new employees. Rule-based parsing will work a charm for this use case. Another good example could be extracting data from invoices and updating expenses into an in-house database.
+
+Pipeline-based Methods
+Pipeline-based methods break down the pdf parsing task as a series of steps or tasks. For example, the first step could be to fix the blurriness or orientation of the page. The second step could do a layout analysis of both visual and semantic structural analysis identifying the location of images, table and text. For example, the page could be a double-column text instead of a single column. The third step could then extract tables, text, and images from the identified layout. The last step could be integrating the identified result to restore the page into an HTML or Markdown format.
+
+
+A simple schematic showing the possible different tasks in a pipeline-based approach to pdf parsing
+Learning-based Methods
+They are based on machine learning or deep learning models. Like any other learning-based method, they need some data for training and developing a model. They can be further divided into three categories namely, Deep learning-based and Small Model-based.
+
+
+Some commonly used learning based approaches to PDF parsing
+Some of the well-known approaches are shown in the above figure. They include Convolutional Neural Networks(CNNs), Optical Character Recognition models such as Tesseract from Google, Table Transformer from Microsft, and Detection and segmentation algorithms like Mask R-CNN for detecting the layout. Or a simple document classification model can be used to classify the type of document which can then be processed further with a pipeline.
+
+Hybrid Methods.
+As the name suggests, they combine rule-based and learning-based methods to make the best of both worlds.
+
+Trade-off to consider
+While choosing an approach for building PDF parsing pipeline, some of the main considerations include the complexity of the documents, the computing power at our disposal, and the latency requirements of the system.
